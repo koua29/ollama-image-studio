@@ -2,7 +2,7 @@
   "name": "ollama-image-studio",
   "version": "1.2.1",
   "description": "Local GUI for generating images via the Ollama API",
-  "author": "Arnaud Soulas",
+  "author": "koua29",
   "license": "MIT",
   "main": "electron/main.js",
   "type": "module",
