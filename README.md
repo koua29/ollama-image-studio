@@ -132,9 +132,9 @@ ollama-image-studio/
 
 Accessoires utiles pour ce projet — liens affiliés Amazon :
 
-| [<img src="docs/amazon-B0DD7F2BH9.jpg" width="200" alt="Creality Ender-3 V3 SE">](https://www.amazon.com/dp/B0DD7F2BH9?linkCode=ll2&tag=koua29-20&ref_=as_li_ss_tl) | [<img src="docs/amazon-B07PGY2JP1.jpg" width="200" alt="OVERTURE PLA 1,75 mm">](https://www.amazon.com/dp/B07PGY2JP1?linkCode=ll2&tag=koua29-20&ref_=as_li_ss_tl) | [<img src="docs/amazon-B0874YJP92.jpg" width="200" alt="Samsung T7 1 To">](https://www.amazon.com/dp/B0874YJP92?linkCode=ll2&tag=koua29-20&ref_=as_li_ss_tl) |
+| [<img src="docs/amazon-B0DD7F2BH9.jpg" width="200" alt="Creality Ender-3 V3 SE">](https://www.amazon.com/dp/B0DD7F2BH9?linkCode=ll2&tag=koua29ollamaimagestu-20&ref_=as_li_ss_tl) | [<img src="docs/amazon-B07PGY2JP1.jpg" width="200" alt="OVERTURE PLA 1,75 mm">](https://www.amazon.com/dp/B07PGY2JP1?linkCode=ll2&tag=koua29ollamaimagestu-20&ref_=as_li_ss_tl) | [<img src="docs/amazon-B0874YJP92.jpg" width="200" alt="Samsung T7 1 To">](https://www.amazon.com/dp/B0874YJP92?linkCode=ll2&tag=koua29ollamaimagestu-20&ref_=as_li_ss_tl) |
 |:---:|:---:|:---:|
-| 🖨️ **[Creality Ender-3 V3 SE](https://www.amazon.com/dp/B0DD7F2BH9?linkCode=ll2&tag=koua29-20&ref_=as_li_ss_tl)**<br><sub>Pour imprimer les STL que l'app génère</sub> | 🧵 **[OVERTURE PLA 1,75 mm](https://www.amazon.com/dp/B07PGY2JP1?linkCode=ll2&tag=koua29-20&ref_=as_li_ss_tl)**<br><sub>Le filament qui va avec l'imprimante</sub> | 💾 **[Samsung T7 1 To](https://www.amazon.com/dp/B0874YJP92?linkCode=ll2&tag=koua29-20&ref_=as_li_ss_tl)**<br><sub>Les modèles Ollama et les STL prennent de la place</sub> |
+| 🖨️ **[Creality Ender-3 V3 SE](https://www.amazon.com/dp/B0DD7F2BH9?linkCode=ll2&tag=koua29ollamaimagestu-20&ref_=as_li_ss_tl)**<br><sub>Pour imprimer les STL que l'app génère</sub> | 🧵 **[OVERTURE PLA 1,75 mm](https://www.amazon.com/dp/B07PGY2JP1?linkCode=ll2&tag=koua29ollamaimagestu-20&ref_=as_li_ss_tl)**<br><sub>Le filament qui va avec l'imprimante</sub> | 💾 **[Samsung T7 1 To](https://www.amazon.com/dp/B0874YJP92?linkCode=ll2&tag=koua29ollamaimagestu-20&ref_=as_li_ss_tl)**<br><sub>Les modèles Ollama et les STL prennent de la place</sub> |
 
 <sub>En tant que Partenaire Amazon, je réalise un bénéfice sur les achats remplissant les conditions requises. · As an Amazon Associate I earn from qualifying purchases.</sub>
 
