@@ -1,152 +1,167 @@
 # Ollama Image Studio
 
-Application native macOS pour générer, en local, **des images**, **des modèles 3D (STL)** à partir d'un prompt, et **des modèles 3D à partir d'une photo** — sans passer par le terminal. Construite avec Electron + React, pensée pour Apple Silicon.
+<p align="center">🇺🇸 <b>English</b> · 🇫🇷 <a href="README.fr.md">Français</a></p>
 
-![Ollama Image Studio — génération d'image](docs/screenshot.png)
+A native macOS app to generate, locally, **images**, **3D models (STL)** from a prompt, and **3D models from a photo** — without touching the terminal. Built with Electron + React, designed for Apple Silicon.
 
-![Ollama Image Studio — module STL 3D](docs/screenshot-stl.png)
+![Ollama Image Studio — image generation](docs/screenshot.png)
 
-![Ollama Image Studio — module Image → 3D (Hunyuan3D)](docs/screenshot-3d.png)
+![Ollama Image Studio — 3D STL module](docs/screenshot-stl.png)
 
-## Fonctionnalités
+![Ollama Image Studio — Image → 3D module (Hunyuan3D)](docs/screenshot-3d.png)
 
-L'app a **trois modes**, sélectionnables en haut du panneau :
+## Features
 
-### 🖼️ Mode Image
-- Génération d'images via le modèle `x/z-image-turbo` (affiché **en rouge** avec la commande d'installation s'il n'est pas présent).
-- Paramètres : largeur / hauteur (512–2048), nombre d'étapes, *seed* (+ bouton aléatoire 🎲).
-- Sauvegarde dans `~/Pictures/OllamaImageStudio/`.
+The app has **three modes**, selectable at the top of the panel:
 
-### 🧊 Mode STL 3D
-- Choix libre du modèle de **code** parmi ceux installés localement.
-- Pipeline : *prompt → le modèle écrit du code [JSCAD](https://github.com/jscad/OpenJSCAD.org) → compilation en STL dans l'app → rendu 3D*.
-- **Visualiseur 3D interactif** (rotation à la souris, zoom à la molette) via Three.js.
-- Bouton **« View code »** pour inspecter le code JSCAD généré.
-- Sauvegarde du `.stl` dans `~/Documents/OllamaImageStudio/`.
-- Robustesse : *system prompt* détaillé + couche de compatibilité tolérante + **auto-réparation** (si le code échoue, l'erreur est renvoyée au modèle pour correction, jusqu'à 3 essais).
+### 🖼️ Image mode
+- Image generation with the `x/z-image-turbo` model (shown **in red** with the install command if it isn't present).
+- Settings: width / height (512–2048), number of steps, *seed* (+ random button 🎲).
+- Saved to `~/Pictures/OllamaImageStudio/`.
 
-### 🗿 Mode Image → 3D (Hunyuan3D, avancé)
-- Transforme **une image** (photo ou image générée) en **modèle 3D** via [Hunyuan3D 2.1](https://github.com/Tencent-Hunyuan/Hunyuan3D-2.1) tournant **en local sur Apple Silicon** (MLX).
-- Choix du nombre d'étapes, **taille STL configurable (mm)** pour l'impression, et **texture couleur (PBR)** optionnelle.
-- Visualiseur 3D, export **GLB** (avec couleur) et **STL** (pour l'impression 3D, mis à l'échelle).
-- ⚙️ **Nécessite un serveur local séparé** (voir [Mode Image → 3D : installation](#mode-image--3d--installation-serveur-local)). Sans lui, le mode affiche « serveur off ».
-- ⏱️ ~9 min pour la forme, ~9 min de plus avec la texture (sur M2 Pro).
+### 🧊 3D STL mode
+- Free choice of the **code** model among the ones installed locally.
+- Pipeline: *prompt → the model writes [JSCAD](https://github.com/jscad/OpenJSCAD.org) code → compiled to STL inside the app → 3D render*.
+- **Interactive 3D viewer** (mouse rotation, scroll-wheel zoom) with Three.js.
+- **"View code"** button to inspect the generated JSCAD code.
+- The `.stl` is saved to `~/Documents/OllamaImageStudio/`.
+- Robustness: detailed *system prompt* + forgiving compatibility layer + **self-repair** (if the code fails, the error is sent back to the model for a fix, up to 3 attempts).
 
-### Commun à tous les modes
-- ✅ Vérification automatique de la connexion à Ollama + détection des modèles.
-- 🗂️ Galerie des 20 dernières générations (clic = recharge les paramètres). Métadonnées persistées sur disque.
-- ⏹️ Génération annulable à tout moment.
-- 📋 Copier le prompt, 📂 révéler le fichier dans le Finder.
-- 🌙 Thème sombre, barre de titre macOS native.
+### 🗿 Image → 3D mode (Hunyuan3D, advanced)
+- Turns **an image** (photo or generated image) into a **3D model** with [Hunyuan3D 2.1](https://github.com/Tencent-Hunyuan/Hunyuan3D-2.1) running **locally on Apple Silicon** (MLX).
+- Choice of the number of steps, **configurable STL size (mm)** for printing, and optional **color texture (PBR)**.
+- 3D viewer, **GLB** export (with color) and **STL** export (for 3D printing, scaled).
+- ⚙️ **Requires a separate local server** (see [Image → 3D mode: setup](#image--3d-mode-setup-local-server)). Without it, the mode shows "server off".
+- ⏱️ ~9 min for the shape, ~9 more min with the texture (on an M2 Pro).
 
-## Prérequis
+### Common to all modes
+- ✅ Automatic check of the Ollama connection + model detection.
+- 🗂️ Gallery of the last 20 generations (click = reloads the settings). Metadata saved to disk.
+- ⏹️ Generation can be cancelled at any time.
+- 📋 Copy the prompt, 📂 reveal the file in Finder.
+- 🌙 Dark theme, native macOS title bar.
 
-- macOS (Apple Silicon recommandé)
-- [Ollama](https://ollama.com) installé et lancé : `ollama serve`
-- **Pour les images** : `ollama pull x/z-image-turbo`
-- **Pour le STL** : un modèle de code. Recommandé pour la meilleure qualité :
-  un modèle *cloud* comme `gpt-oss:120b-cloud` ; en local, `qwen2.5-coder` fonctionne aussi.
-- Node.js 18+ (pour compiler depuis les sources)
+## Requirements
 
-> **Note** : la génération d'image via `/api/generate` d'Ollama est un point d'API expérimental.
-> Pour le STL, la qualité dépend fortement du modèle de code choisi : les modèles plus
-> puissants produisent des formes nettement plus détaillées.
+- macOS (Apple Silicon recommended)
+- [Ollama](https://ollama.com) installed and running: `ollama serve`
+- **For images**: `ollama pull x/z-image-turbo`
+- **For STL**: a code model. Recommended for the best quality:
+  a *cloud* model such as `gpt-oss:120b-cloud`; locally, `qwen2.5-coder` works too.
+- Node.js 18+ (to build from source)
 
-## Lancer depuis les sources
+> **Note**: image generation through Ollama's `/api/generate` is an experimental API endpoint.
+> For STL, quality depends heavily on the code model you pick: more powerful
+> models produce much more detailed shapes.
+
+## Run from source
 
 ```bash
 git clone https://github.com/koua29/ollama-image-studio.git
 cd ollama-image-studio
 npm install
-npm run dev      # lance Vite + Electron en mode développement
+npm run dev      # starts Vite + Electron in development mode
 ```
 
-## Construire une app distribuable
+## Build a distributable app
 
 ```bash
-npm run build    # produit un .app et un .dmg dans release/
+npm run build    # produces a .app and a .dmg in release/
 ```
 
-Glissez ensuite **Ollama Image Studio.app** dans votre dossier `/Applications`, ou ouvrez le `.dmg`.
+Then drag **Ollama Image Studio.app** into your `/Applications` folder, or open the `.dmg`.
 
-## Mode Image → 3D : installation (serveur local)
+## Image → 3D mode: setup (local server)
 
-Le mode **Img→3D** s'appuie sur Hunyuan3D 2.1 (port MLX), qui tourne dans un **petit serveur Python séparé** (l'app le contacte sur `http://127.0.0.1:8765`). C'est une fonctionnalité **avancée**, distincte du cœur de l'app.
+The **Img→3D** mode relies on Hunyuan3D 2.1 (MLX port), which runs in a **small separate Python server** (the app talks to it on `http://127.0.0.1:8765`). It's an **advanced** feature, separate from the core of the app.
 
-Prérequis : Mac Apple Silicon (32 Go recommandés), Python 3.11, ~14 Go de poids de modèle.
+Requirements: Apple Silicon Mac (32 GB recommended), Python 3.11, ~14 GB of model weights.
 
-1. Récupère le pipeline MLX et les poids ([dgrauet/Hunyuan3D-2.1-mlx](https://github.com/dgrauet/Hunyuan3D-2.1-mlx), poids sur [Hugging Face](https://huggingface.co/dgrauet/hunyuan3d-2.1-mlx)).
-2. Crée un venv et installe les dépendances (`requirements-mlx.txt`).
-3. Lance le serveur. **L'app installée le démarre automatiquement à son ouverture**
-   (et l'arrête à la fermeture) dès lors que le dossier `hunyuan3d-mlx` et son venv
-   existent à l'emplacement attendu — rien à faire. En secours / hors app, un script
-   double-cliquable est fourni :
+1. Get the MLX pipeline and the weights ([dgrauet/Hunyuan3D-2.1-mlx](https://github.com/dgrauet/Hunyuan3D-2.1-mlx), weights on [Hugging Face](https://huggingface.co/dgrauet/hunyuan3d-2.1-mlx)).
+2. Create a venv and install the dependencies (`requirements-mlx.txt`).
+3. Start the server. **The installed app starts it automatically when it opens**
+   (and stops it when it closes) as long as the `hunyuan3d-mlx` folder and its venv
+   exist at the expected location — nothing to do. As a fallback / outside the app, a
+   double-clickable script is provided:
    ```
    ./start-3d-server.command
    ```
-   Le badge passe à « serveur OK » dans l'app.
+   The badge switches to "server OK" in the app.
 
-> Emplacement attendu par l'auto-démarrage : `~/Documents/Claude/Projects/hunyuan3d-mlx`
-> (surchargeable via la variable d'environnement `OIS_3D_SERVER_DIR`).
+> Location expected by the auto-start: `~/Documents/Claude/Projects/hunyuan3d-mlx`
+> (can be overridden with the `OIS_3D_SERVER_DIR` environment variable).
 
-> Sans ce serveur, les modes **Image** et **STL** fonctionnent normalement ; seul **Img→3D** est désactivé.
+> Without this server, the **Image** and **STL** modes work normally; only **Img→3D** is disabled.
 
-### Conseils d'image pour de bons résultats (Img→3D)
+### Image tips for good results (Img→3D)
 
-Le pipeline **ne supprime pas le fond** automatiquement : la qualité du modèle 3D
-dépend directement d'une image d'entrée propre. Privilégie un **PNG à fond
-transparent** (objet détouré) — l'app le compose sur fond blanc tout seul.
+The pipeline **does not remove the background** automatically: the quality of the 3D model
+depends directly on a clean input image. Prefer a **PNG with a transparent
+background** (cut-out object) — the app composites it onto white by itself.
 
-| Critère | Recommandation |
+| Criterion | Recommendation |
 |---|---|
-| **Format** | **PNG fond transparent** (idéal) ; sinon PNG/JPG **fond blanc pur et uni** |
-| **Sujet** | un **seul objet**, bien contrasté avec le fond |
-| **Cadrage** | objet **centré**, remplissant ~80–90 % de l'image, **non coupé** aux bords |
-| **Ratio** | **proche du carré** (un format très allongé ⇒ objet plus petit ⇒ moins de détail) |
-| **Vue** | **vue de face claire** (le modèle déduit le dos à partir de cette vue) |
-| **Lumière** | **uniforme**, éviter les ombres dures (elles deviennent du relief) |
-| **Résolution** | ~1024 px suffit (l'encodeur redimensionne de toute façon) |
+| **Format** | **Transparent-background PNG** (ideal); otherwise PNG/JPG on a **pure, plain white background** |
+| **Subject** | a **single object**, with good contrast against the background |
+| **Framing** | object **centered**, filling ~80–90% of the image, **not cut off** at the edges |
+| **Ratio** | **close to square** (a very elongated format ⇒ smaller object ⇒ less detail) |
+| **View** | **clear front view** (the model infers the back from this view) |
+| **Lighting** | **even**, avoid hard shadows (they turn into relief) |
+| **Resolution** | ~1024 px is enough (the encoder resizes anyway) |
 
-À éviter : fonds chargés/réels, ombres portées, faible contraste objet/fond,
-JPG très compressé (artefacts sur les contours).
+Avoid: busy/real-world backgrounds, cast shadows, low object/background contrast,
+heavily compressed JPG (artifacts on the edges).
 
 ## Architecture
 
 ```
 ollama-image-studio/
 ├── electron/
-│   ├── main.js       # processus principal : IPC, appels HTTP Ollama, pipeline JSCAD→STL
-│   └── preload.js    # contextBridge — expose une API sûre window.ollama
+│   ├── main.js       # main process: IPC, Ollama HTTP calls, JSCAD→STL pipeline
+│   └── preload.js    # contextBridge — exposes a safe window.ollama API
 └── src/
-    ├── App.jsx       # état de l'application
+    ├── App.jsx       # application state
     └── components/   # Header, PromptPanel, ImageViewer, StlViewer, Gallery
 ```
 
-**Choix techniques**
+**Technical choices**
 
-- Tous les appels HTTP à Ollama se font dans le **processus principal** (module `http` de Node, zéro dépendance) — pas de problème de CORS et le *renderer* reste isolé.
-- Le code JSCAD généré par le modèle est exécuté dans un **bac à sable `vm` verrouillé** (pas d'accès fichier/réseau, exécution bornée dans le temps), puis sérialisé en STL.
-- Sécurité : `nodeIntegration: false`, `contextIsolation: true`, `sandbox: true`, plus une Content-Security-Policy stricte.
+- All HTTP calls to Ollama are made in the **main process** (Node's `http` module, zero dependencies) — no CORS issues and the *renderer* stays isolated.
+- The JSCAD code generated by the model runs in a **locked-down `vm` sandbox** (no file/network access, time-bounded execution), then is serialized to STL.
+- Security: `nodeIntegration: false`, `contextIsolation: true`, `sandbox: true`, plus a strict Content-Security-Policy.
 
-## 🛒 Matériel / Hardware
+## 🛒 Hardware
 
-Accessoires utiles pour ce projet — liens affiliés Amazon :
+*Amazon affiliate links: if you buy through these links, the project earns a small commission at no extra cost to you.*
 
-| [<img src="docs/amazon-B0DD7F2BH9.jpg" width="200" alt="Creality Ender-3 V3 SE">](https://www.amazon.com/dp/B0DD7F2BH9?linkCode=ll2&tag=koua29ollamaimagestu-20&ref_=as_li_ss_tl) | [<img src="docs/amazon-B07PGY2JP1.jpg" width="200" alt="OVERTURE PLA 1,75 mm">](https://www.amazon.com/dp/B07PGY2JP1?linkCode=ll2&tag=koua29ollamaimagestu-20&ref_=as_li_ss_tl) | [<img src="docs/amazon-B0874YJP92.jpg" width="200" alt="Samsung T7 1 To">](https://www.amazon.com/dp/B0874YJP92?linkCode=ll2&tag=koua29ollamaimagestu-20&ref_=as_li_ss_tl) |
-|:---:|:---:|:---:|
-| 🖨️ **[Creality Ender-3 V3 SE](https://www.amazon.com/dp/B0DD7F2BH9?linkCode=ll2&tag=koua29ollamaimagestu-20&ref_=as_li_ss_tl)**<br><sub>Pour imprimer les STL que l'app génère</sub> | 🧵 **[OVERTURE PLA 1,75 mm](https://www.amazon.com/dp/B07PGY2JP1?linkCode=ll2&tag=koua29ollamaimagestu-20&ref_=as_li_ss_tl)**<br><sub>Le filament qui va avec l'imprimante</sub> | 💾 **[Samsung T7 1 To](https://www.amazon.com/dp/B0874YJP92?linkCode=ll2&tag=koua29ollamaimagestu-20&ref_=as_li_ss_tl)**<br><sub>Les modèles Ollama et les STL prennent de la place</sub> |
+<table>
+<tr>
+<td align="center" width="33%">
+  <a href="https://www.amazon.com/dp/B0DD7F2BH9?linkCode=ll2&amp;tag=koua29ollamaimagestu-20&amp;ref_=as_li_ss_tl"><img src="docs/amazon-B0DD7F2BH9.jpg" width="200" alt="Creality Ender-3 V3 SE"></a><br>
+  <b><a href="https://www.amazon.com/dp/B0DD7F2BH9?linkCode=ll2&amp;tag=koua29ollamaimagestu-20&amp;ref_=as_li_ss_tl">Creality Ender-3 V3 SE</a></b><br><sub>To print the STL files the app generates</sub>
+</td>
+<td align="center" width="33%">
+  <a href="https://www.amazon.com/dp/B07PGY2JP1?linkCode=ll2&amp;tag=koua29ollamaimagestu-20&amp;ref_=as_li_ss_tl"><img src="docs/amazon-B07PGY2JP1.jpg" width="200" alt="OVERTURE PLA 1.75 mm"></a><br>
+  <b><a href="https://www.amazon.com/dp/B07PGY2JP1?linkCode=ll2&amp;tag=koua29ollamaimagestu-20&amp;ref_=as_li_ss_tl">OVERTURE PLA 1.75 mm</a></b><br><sub>The filament to go with the printer</sub>
+</td>
+<td align="center" width="33%">
+  <a href="https://www.amazon.com/dp/B0874YJP92?linkCode=ll2&amp;tag=koua29ollamaimagestu-20&amp;ref_=as_li_ss_tl"><img src="docs/amazon-B0874YJP92.jpg" width="200" alt="Samsung T7 1 TB"></a><br>
+  <b><a href="https://www.amazon.com/dp/B0874YJP92?linkCode=ll2&amp;tag=koua29ollamaimagestu-20&amp;ref_=as_li_ss_tl">Samsung T7 1 TB</a></b><br><sub>Ollama models and STL files take up space</sub>
+</td>
+</tr>
+</table>
 
-<sub>En tant que Partenaire Amazon, je réalise un bénéfice sur les achats remplissant les conditions requises. · As an Amazon Associate I earn from qualifying purchases.</sub>
+<sub>As an Amazon Associate I earn from qualifying purchases.</sub>
 
-## ☕ Offrez-moi un café
+## ☕ Buy me a coffee
 
-Cette application est gratuite et open source. Si elle vous est utile, vous pouvez me remercier
-en m'offrant un café — il suffit de scanner ce QR code PayPal. Merci beaucoup ! 🙏
+This app is free and open source. If you find it useful, you can say thanks
+by buying me a coffee — just scan this PayPal QR code. Thanks a lot! 🙏
 
 <p align="center">
-  <img src="docs/paypal-qr.png" alt="QR code PayPal pour offrir un café" width="220" />
+  <img src="docs/paypal-qr.png" alt="PayPal QR code to buy me a coffee" width="220" />
 </p>
 
-## Licence
+## License
 
 [MIT](LICENSE) © 2026 koua29
